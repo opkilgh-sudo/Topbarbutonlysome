@@ -300,7 +300,7 @@ function Icon:setOrder(int)
 	return self
 end
 
-function Icon:align(leftCenterOrRight)
+function Icon:align(leftCenterOrRight, isFromParentIcon)
 	local direction = tostring(leftCenterOrRight):lower()
 	if direction == "mid" or direction == "centre" then
 		direction = "center"
@@ -308,9 +308,23 @@ function Icon:align(leftCenterOrRight)
 	if direction ~= "left" and direction ~= "center" and direction ~= "right" then
 		direction = "left"
 	end
-	self.originalAlignment = string.upper(string.sub(direction, 1, 1)) .. string.sub(direction, 2)
-	self.alignment = self.originalAlignment
-	self.alignmentChanged:Fire(self.alignment)
+	local finalDirection = string.upper(string.sub(direction, 1, 1)) .. string.sub(direction, 2)
+	if not isFromParentIcon then
+		self.originalAlignment = finalDirection
+	end
+	
+	if Icon.container and Icon.container.TopbarStandard then
+		local holders = Icon.container.TopbarStandard:FindFirstChild("Holders")
+		if holders then
+			local alignmentHolder = holders:FindFirstChild(finalDirection)
+			if alignmentHolder and not self.isDestroyed then
+				self.widget.Parent = alignmentHolder
+			end
+		end
+	end
+
+	self.alignment = finalDirection
+	self.alignmentChanged:Fire(finalDirection)
 	Icon.iconChanged:Fire(self)
 	return self
 end
@@ -449,4 +463,3 @@ end
 Icon.Destroy = Icon.destroy
 
 return Icon
-
