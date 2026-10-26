@@ -1,5 +1,5 @@
 -- ── CONFIG — เปลี่ยนลิงก์นี้ให้ตรงกับ GitHub Repository ของคุณ ────────
-local BASE_URL = "https://raw.githubusercontent.com/Therealtobu/Topbar-Plus-For-Executor/main/"
+local BASE_URL = "https://raw.githubusercontent.com/opkilgh-sudo/Topbarbutonlysome/refs/heads/main/"
 -- ───────────────────────────────────────────────────────────────────────
 
 local function load(path)
